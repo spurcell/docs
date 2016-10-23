@@ -1,0 +1,33 @@
+/**
+ * Constructor
+ */
+create is <-> (width, height, name) {
+
+    reply [
+
+        getHeight: -> {
+            reply height;
+        },
+
+        getWidth: -> {
+            reply width;
+        },
+
+        getArea: -> {
+            reply height * width;
+        },
+
+        // syntactic sugar idea: setHeight -> height to replace the below
+        setHeight: -> (newHeight) {
+            height = newHeight;
+        },
+
+        setWidth: -> (newWidth) {
+            width = newWidth;
+        },
+
+        toString: -> {
+            reply "`name`: `width` x `height`";
+        }
+    ];
+};

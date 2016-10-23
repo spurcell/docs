@@ -1,0 +1,60 @@
+/**
+ * Another interview question solution.
+ *
+ * Created by: spurcell
+ * 2/8/15
+ */
+
+dict is {
+    "hi", "hit", "here", "the",
+//    "resign",
+    "there", "post", "signpost"
+};
+
+main is <-> (args, io, system) {
+
+    findWords("hitheresignpost", io.out.write) -> (result) {
+        io.out.write("success! found `result`\n");
+    }
+    on fail -> {
+        io.out.write("I was not set up for success\n");
+//        fail;
+    }
+};
+
+findWords is <-> (s, log) {
+
+    length = #s;
+
+//    log("`s`, `length`\n");
+
+    i = 0;
+
+    while i < length {
+
+        word = s[0..i];
+
+//        log("`word`, `i`\n");
+
+        if word in dict {
+
+            log("FOUND `word`\n");
+
+            // base case
+            if i == length - 1 {
+                reply [word];
+            }
+
+            findWords(s[i+1..], log) -> (rest) {
+                reply [word] >< rest;
+            }
+        }
+
+        i++;
+    }
+
+    // we seem to have run out of string
+    fail;
+};
+
+

@@ -1,10 +1,10 @@
-Here's some Lo code:
+Here's some Lo code that probably looks suspiciously familiar to you:
 
 ```
 y = foo(x);
 ```
 
-That looks suspiciously like a typical function call – and in terms of effect, that's an accurate impression. But the underlying semantics are quite different.
+That looks exactly like a typical C-family function call and assignment. And in terms of effect, that's an accurate impression. But the underlying semantics are very different.
 
 # Messages and Procedures
 
@@ -134,12 +134,15 @@ myService("hello") on fail -> (err) {
 	// handle error
 }
 ```
+When a handler is ommitted, the respective message is still listened for as a signal to continue execution. Imagine if this wasn't true: you only care about handling success, but a request fails – if you weren't listening for that failure you wouldn't know that the success message will never come, and the process would hang. In effect, when no explicit handler is provided, an implicit one is put in its place.
 
 If both handlers are omitted, a semicolon is required:
 
 ```
 myService("hello");
 ```
+
+Both handlers being omitted means you don't care about success *or* failure; in this case, execution can continue immediately, and the implicit listening behavior is not necessary.
 
 # Asynchronous Requests
 
