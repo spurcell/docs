@@ -1,3 +1,5 @@
+# Messages and Procedures
+
 Here's some Lo code that probably looks suspiciously familiar to you:
 
 ```
@@ -5,8 +7,6 @@ y = foo(x);
 ```
 
 That looks exactly like a typical C-family function call and assignment. And in terms of effect, that's an accurate impression. But the underlying semantics are very different.
-
-# Messages and Procedures
 
 Messages are fundamental in Lo; every procedure activation begins with a message. Procedures are defined with the arrow operator (to suggest the incoming message). For example:
 

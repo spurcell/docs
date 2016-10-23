@@ -4,6 +4,8 @@
 > 
 > *Tony Hoare, 1980 ACM Turing Award Lecture*
 
+Lo is a message-based programming language designed for building robust concurrent applications in the real world – where failures happen and security matters.
+
 Why was Lo created? There are already so many "general purpose" programming languages – surely we have enough. The purpose of Lo is to be a tool that feels better in the hand; that doesn't hurt to hold for a long time; that doesn't get in the way of precision work, but can also be used to build large-scale structures. Lo is a tool, not a manifesto. Simplicity is pursued because that makes a better tool. The purpose is developer happiness.
 
 ## Requirements
