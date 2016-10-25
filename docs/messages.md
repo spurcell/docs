@@ -170,8 +170,9 @@ The arguments to foo are evaluated *concurrently*.
 
 # Events
 
-Another messaging pattern is the one-to-many pattern. This has built-in support in the form of *events*.
+Another messaging pattern is the one-to-many pattern. This has built-in support in the form of *events*. An event has two parts: emit and listen, which are both addresses.
 
 ```
 // define an event
+click is -<;
 ```

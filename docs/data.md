@@ -75,9 +75,7 @@ and converted to strings with bare backticks.**
 write(`height`);
 ```
 
-
-
-The link operator `><` produces a new array containing the elements of the left array followed by the elements of the right array.
+The concatenation operator `><` yields a new array containing the elements of the left array followed by the elements of the right array.
 
 ```
 western = ["K2", "Nanga Parbat"];
@@ -94,17 +92,8 @@ mountains ><= "Denali";                // insert a value at the back
 // A: because it's an array of strings, not characters
 ```
 
-The `cut` operator removes the specified element or range from a collection and evaluates to the value of the removed element or range. If an array, the length is decreased – extraction doesn't leave a "hole" in an array.
 
-```
-x = cut fibs[0];	// extract the first element
-y = cut fibs[-1];	// extract the last element
-z = cut fibs[1..4];	// extract from index 1 *up to and including* index 4
-```
-
-
-
-A **form** is a sequence of one or more *labeled* elements of any type, including collections or other forms. Forms provide direct access to elements using either dot-label notation or zero-based subscript notation. A form is a composite data type, not a collection, so it doesn't have a cardinality. Form literals can be defined within square brackets.
+A **record** is a sequence of one or more labeled elements of any type, including collections or other records. Records provide direct access to elements using either dot-label notation or zero-based subscript notation. Record literals can be defined within square brackets.
 
 ```
 student = [
@@ -126,7 +115,6 @@ A **set** is an unordered collection of same-type values. Set literals are defin
 ```
 crew = {"Leela", "Fry", "Bender"};
 ```
-
 
 A **map** is a set of *keys*, each with an associated value. A map thus defines a mapping from the set of keys onto the set of values. Map literals are defined with braces, being an extension of the set concept.
 
@@ -150,11 +138,13 @@ cut greats["Jelly Roll Morton"];
 emptyMap = {=>};    // to distinguish from an empty set
 ```
 
-The concatenation operator can be used to merge two sets or maps. If used to merge maps, it is non-commutative.
+The union operator `+` can be used to merge two sets, maps, or records. If used to merge maps, it is non-commutative; that is, the left-hand-side map keys also present in the right-hand-side map will appear in the union result with the values of the right-hand-side keys.
+
+The intersection operator `*` can be used to intersect two sets, maps, or records.
 
 #### Cardinality
 
-You can get the cardinality (number of elements) of any array, set, or map in constant time with the cardinality operator `#`.
+You can get the cardinality (number of elements) of any array, set, or map with the cardinality operator `#`. A record is a composite data type, not a collection, so it doesn't have a cardinality. 
 
 ```
 numItems = #{"apples", "oranges"};    // numItems is 2

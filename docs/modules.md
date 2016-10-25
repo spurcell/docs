@@ -31,24 +31,3 @@ reply "Hello, `name` - your lucky number is `getLuckyNumber(42)`;
 ```
 
 Note how a nested procedure can refer to its own task's state *as well as the state of any parent tasks*. However, it can't refer to any other state - it is totally cut off from the world otherwise. Therefore, anything required by a procedure must be provided in a request or in the parent request.
-
-### Objects
-
-A `service` statement creates a service having the specified procedure but is also an expression with a value of the address of the resulting service, which can then be held and transferred like any other value - i.e. assigned to a variable or data structure element, or passed in a message. In this way a procedure can be defined in one module but invoked by another - and thus provide mediated external access to the state of its parent procedure - and thus become a stateful service. This provides the mechanism by which we construct objects in Lo:
-
-```
-// a Person constructor
-
-receive name, birthday;
-
-reply {
-
-    getName: service:
-	    reply name;
-	    
-	getBirthday: service:
-	    reply birthday;
-};
-```
-
-Though possible in the language, it obviously doesn't make sense to create a service without retaining its address - this would be doing the work of setting up a new inbox and then throwing away its address.
