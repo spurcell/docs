@@ -1,39 +1,55 @@
 # Language Basics
 
-Lo employs a concise, C-family syntax that should feel familiar to most users. Statements are separated by semicolons and braces are used to delimit blocks.
-
+Lo derives its syntax from C and should thus feel familiar to most users; most statements are separated by semicolons and braces are used to delimit blocks.
 
 ## Data Types
 
-Lo supports signed integers and IEEE-794 floating point numbers and provides the literal values `true` and `false` for booleans.
+Lo supports signed integers and floating point numbers and provides the literal values `true` and `false` for booleans.
+
+Variables are declared implicitly by assignment:
 
 ```
 myInt = 42;
 myFloat = 2.71828;
+testMode = true;
 ```
 *Note: assignments in Lo are statements, not expressions.*
 
-Lo provides the usual operators for:
+Constants are defined using `is`:
 
-- Algebraic expressions: `+` `-` `*` `/` `%`
-- Logical expressions: `and` `or`
-- Comparison: `==` `>` `<` `>=` `<=`
-- Increment/decrement: `++` `--`
-- Modify `+=` `-=` `*=` `/=`
+```
+theAnswer is 42;
+planetName is "Tralfamadore";
+```
 
-*Note: since the increment and decrement operators are just syntactic sugar for assignments of the form `x = x +/- 1` and assignments are statements, not expressions, these operators cannot be used in expressions.*
+Once a constant has been defined in a scope it cannot be redefined.
 
-A **character** value holds a single Unicode code point. Character literals can be specified with single quotes. Characters may consume more than one byte.
+A character value holds a single Unicode code point. Character literals can be specified with single quotes. Characters may consume more than one byte.
 
 ```
 letterA = 'A';
 aleph = 'א';
 ```
 
+### Expressions
+
+Lo provides the usual operators for:
+
+- Algebraic expressions: `+` `-` `*` `/` `%`
+- Logical expressions: `and` `or`
+- Comparison expressions: `==` `>` `<` `>=` `<=`
+
+Lo also provides
+
+- Increment/decrement: `++` `--`
+- Modify `+=` `-=` `*=` `/=`
+
+*Note: since the increment and decrement operators are just syntactic sugar for assignments of the form `x = x +/- 1` and assignments are statements, not expressions, these operators cannot be used in expressions.*
+
 
 ## Data Structures
 
-Collections in Lo are not objects with message interfaces but more like C arrays: local values that can be directly accessed and modified by the current procedure. So if you pass a collection to a procedure, it may need to be copied.
+Collections in Lo are not objects with message interfaces but more like statically-allocated C arrays: local values that can be directly accessed and modified by the current procedure. However, unlike C arrays, collections can't be accessed or passed by references – a collection is the exclusive property of the local process. So if you pass a collection to a procedure, it may need to be copied. Constants can be defined as collections which are then internally immutable.
 
 An **array** is a sequence of any number of elements, which can be thought of as a strip of paper divided into cells. Arrays grow and shrink dynamically as elements are added or removed, but an array can't have "missing" elements. Elements can be addressed (in constant time) using zero-based subscript notation. Array literals can be defined within square brackets.
 
@@ -69,7 +85,7 @@ Expressions can be interpolated into string literals using backticks.
 message = "Your circle has area `PI * r * r`";
 ```
 
-and converted to strings with bare backticks.**
+and converted to strings with bare backticks.
 
 ```
 write(`height`);
@@ -77,13 +93,13 @@ write(`height`);
 
 
 
-The link operator `><` produces a new array containing the elements of the left array followed by the elements of the right array.
+The concatenation operator `><` produces a new array containing the elements of the left array followed by the elements of the right array.
 
 ```
-western = ["K2", "Nanga Parbat"];
-eastern = ["Everest", "Lhotse", "Kangchenjunga"];
+western is ["K2", "Nanga Parbat"];
+eastern is ["Everest", "Lhotse", "Kangchenjunga"];
 
-mountains = western >< eastern;        // combine two arrays
+mountains = western >< eastern;        // evaluates to the concat of the two immutable arrays
 
 // Q: why does the statement below add one string element instead of
 // six character elements to the back of the array?
@@ -94,30 +110,18 @@ mountains ><= "Denali";                // insert a value at the back
 // A: because it's an array of strings, not characters
 ```
 
-The `cut` operator removes the specified element or range from a collection and evaluates to the value of the removed element or range. If an array, the length is decreased – extraction doesn't leave a "hole" in an array.
+
+A **record** is a sequence of one or more *labeled* elements of any type, including collections or other forms. Forms provide direct access to elements using dot-label notation. A form is a composite data type, not a collection, so it doesn't have a cardinality. Form literals are defined within parens.
 
 ```
-x = cut fibs[0];	// extract the first element
-y = cut fibs[-1];	// extract the last element
-z = cut fibs[1..4];	// extract from index 1 *up to and including* index 4
-```
-
-
-
-A **form** is a sequence of one or more *labeled* elements of any type, including collections or other forms. Forms provide direct access to elements using either dot-label notation or zero-based subscript notation. A form is a composite data type, not a collection, so it doesn't have a cardinality. Form literals can be defined within square brackets.
-
-```
-student = [
-	name: [first: "Joe", last: "B"]
+student = (
+	name: (first: "Joe", last: "B")
 	course: 16
 	year: 2001
-];
+);
 
 // access elements by label
 fullName = "`student.name.first` `student.name.last`";
-
-// access element by position
-course = student[1];
 ```
 
 
@@ -128,7 +132,7 @@ crew = {"Leela", "Fry", "Bender"};
 ```
 
 
-A **map** is a set of *keys*, each with an associated value. A map thus defines a mapping from the set of keys onto the set of values. Map literals are defined with braces, being an extension of the set concept.
+A **map** is a set of *keys*, each with an associated value. A map thus defines a mapping from the set of keys onto the set of values. Map literals are defined within braces using the yield symbol `=>` as a delimiter, since a map is an extension of the set concept.
 
 ```
 greats = {
@@ -144,20 +148,47 @@ instrument = greats["Benny Goodman"]; // Clarinet
 // add a new key
 greats["Louis Armstrong"] = "Trumpet, Vocals";
 
-// remove a key, returning the value
-cut greats["Jelly Roll Morton"];
-
 emptyMap = {=>};    // to distinguish from an empty set
 ```
 
-The concatenation operator can be used to merge two sets or maps. If used to merge maps, it is non-commutative.
+#### Set Operations
 
-#### Cardinality
-
-You can get the cardinality (number of elements) of any array, set, or map in constant time with the cardinality operator `#`.
+You can get the cardinality (number of elements) of any array, set, or map (but not a record) with the cardinality operator `#`.
 
 ```
 numItems = #{"apples", "oranges"};    // numItems is 2
 strlen = #"monkeys";                  // strlen is 7
 ```
 
+You can test membership in sets and maps using the `in` operator:
+
+```
+if "Bender" in crew {
+	// keep an eye on your belongings
+}
+
+if player in greats {
+	instrument = greats[player];
+}
+```
+
+You can find the union, intersection, or difference of two sets or maps using the `+`, `*`, and `-` operators, respectively.
+
+```
+humans  = {"Amy", "Professor", "Hermes", "Fry", "Leela", "Scruffy"};
+aliens  = {"Zoidberg"};
+robots  = {"Bender", "Bessie"};
+
+// union
+nonRobots = humans + aliens;
+
+// intersection
+humanCrew = crew * humans;
+
+// difference
+nonHumanCrew = crew - humanCrew;
+```
+
+## Addresses
+
+There is no reference type in Lo – there's no such thing as a reference to a data object.
