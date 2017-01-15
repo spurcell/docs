@@ -91,7 +91,7 @@ and converted to strings with bare backticks.
 write(`height`);
 ```
 
-The concatenation operator `><` produces a new array containing the elements of the left array followed by the elements of the right array.
+The concatenation operator `><` yields a new array containing the elements of the left array followed by the elements of the right array.
 
 ```
 western is ["K2", "Nanga Parbat"];
