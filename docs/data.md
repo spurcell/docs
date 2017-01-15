@@ -1,6 +1,6 @@
 # Language Basics
 
-Lo derives its syntax from C and should thus feel familiar to most users; most statements are separated by semicolons and braces are used to delimit blocks.
+Lo shares its basic syntax with C-family languages so it should feel familiar to most users; simple statements are separated by semicolons and compound statements are enclosed in braces.
 
 ## Data Types
 
@@ -33,25 +33,25 @@ aleph = 'א';
 
 ### Expressions
 
-Lo provides the usual operators for:
+Lo provides the usual non-mutating operators for constructing expressions.
 
-- Algebraic expressions: `+` `-` `*` `/` `%`
-- Logical expressions: `and` `or`
-- Comparison expressions: `==` `>` `<` `>=` `<=`
+- Algebraic: `+` `-` `*` `/` `%`
+- Logical: `and` `or`
+- Comparison: `==` `>` `<` `>=` `<=`
 
-Lo also provides
+Lo also provides mutating operators that aren't allowed in expressions.
 
 - Increment/decrement: `++` `--`
-- Modify `+=` `-=` `*=` `/=`
-
-*Note: since the increment and decrement operators are just syntactic sugar for assignments of the form `x = x +/- 1` and assignments are statements, not expressions, these operators cannot be used in expressions.*
+- Assignment: `=` `+=` `-=` `*=` `/=` `%=`
 
 
-## Data Structures
+## Collections
 
 Collections in Lo are not objects with message interfaces but more like statically-allocated C arrays: local values that can be directly accessed and modified by the current procedure. However, unlike C arrays, collections can't be accessed or passed by references – a collection is the exclusive property of the local process. So if you pass a collection to a procedure, it may need to be copied. Constants can be defined as collections which are then internally immutable.
 
-An **array** is a sequence of any number of elements, which can be thought of as a strip of paper divided into cells. Arrays grow and shrink dynamically as elements are added or removed, but an array can't have "missing" elements. Elements can be addressed (in constant time) using zero-based subscript notation. Array literals can be defined within square brackets.
+### Arrays
+
+An **array** is a sequence of any number of elements, which can be thought of as a strip of paper divided into cells. Arrays grow and shrink dynamically as elements are added or removed; an array can't have "missing" elements. Elements can be addressed (in constant time) using the zero-based subscript operator `[]`. Array literals can be defined within square brackets.
 
 ```
 fibs = [0, 1, 1, 2, 3, 5, 8];
@@ -91,8 +91,6 @@ and converted to strings with bare backticks.
 write(`height`);
 ```
 
-
-
 The concatenation operator `><` produces a new array containing the elements of the left array followed by the elements of the right array.
 
 ```
@@ -110,29 +108,15 @@ mountains ><= "Denali";                // insert a value at the back
 // A: because it's an array of strings, not characters
 ```
 
+### Sets and Maps
 
-A **record** is a sequence of one or more *labeled* elements of any type, including collections or other forms. Forms provide direct access to elements using dot-label notation. A form is a composite data type, not a collection, so it doesn't have a cardinality. Form literals are defined within parens.
-
-```
-student = (
-	name: (first: "Joe", last: "B")
-	course: 16
-	year: 2001
-);
-
-// access elements by label
-fullName = "`student.name.first` `student.name.last`";
-```
-
-
-A **set** is an unordered collection of same-type values. Set literals are defined with braces.
+A **set** is an unordered collection of same-type values. Set literals are defined with braces, with commas as optional delimiters.
 
 ```
 crew = {"Leela", "Fry", "Bender"};
 ```
 
-
-A **map** is a set of *keys*, each with an associated value. A map thus defines a mapping from the set of keys onto the set of values. Map literals are defined within braces using the yield symbol `=>` as a delimiter, since a map is an extension of the set concept.
+A **map** is a set of keys, each with an associated value. A map thus defines a mapping from the set of keys onto the set of values. Since a map is an extension of the set concept, map literals are also defined within braces, using the yield symbol `=>` to separate keys and values, with commas as optional delimiters. Map values are referenced in expressions by using the key value in square brackets.
 
 ```
 greats = {
@@ -142,21 +126,28 @@ greats = {
 	"Jelly Roll Morton"  => "Piano"
 };
 
-// access a value
+// reference a value with a literal key
 instrument = greats["Benny Goodman"]; // Clarinet
 
 // add a new key
 greats["Louis Armstrong"] = "Trumpet, Vocals";
+
+// reference a value with an expression
+first = "Fats";
+last = "Waller"
+instument = greats["`first` `last`"];
 
 emptyMap = {=>};    // to distinguish from an empty set
 ```
 
 #### Set Operations
 
-You can get the cardinality (number of elements) of any array, set, or map (but not a record) with the cardinality operator `#`.
+You can get the cardinality (number of elements) of a collection (array, set, or map) using the count operator `#`. Since a record is semantically a single object, not a collection, it doesn't have a cardinality.
 
 ```
 numItems = #{"apples", "oranges"};    // numItems is 2
+
+// since a string is a collection, we can get its cardinality
 strlen = #"monkeys";                  // strlen is 7
 ```
 
@@ -186,7 +177,22 @@ nonRobots = humans + aliens;
 humanCrew = crew * humans;
 
 // difference
-nonHumanCrew = crew - humanCrew;
+nonHumanCrew = crew - humans;
+```
+
+## Records
+
+A **record** is an aggregate of one or more labeled fields of any type, including collections or other records. Record fields are referenced in expressions using the dot operator `.` and record literals are defined within parens.
+
+```
+student = (
+	name: (first: "Joe", last: "B")
+	course: 16
+	year: 2001
+);
+
+// access elements by label
+fullName = "`student.name.first` `student.name.last`";
 ```
 
 ## Addresses

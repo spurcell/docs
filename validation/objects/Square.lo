@@ -16,13 +16,13 @@ create is <-> (side) {
 
         toString: rect.toString,
 
-        setSide: -> (side) {
+        setSide: <-> (side) {
 
             rect.setHeight(side);
             rect.setWidth(side);
         },
 
-        getSide: -> {
+        getSide: <-> {
             reply side;
         }
     ];

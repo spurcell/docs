@@ -1,5 +1,5 @@
 /*
- * usage: lo main.lo <side length>
+ * usage: main.lo <side length>
  */
 
 Square  <Square>
@@ -7,7 +7,7 @@ Square  <Square>
 
 main is <-> (args, io) {
 
-    squareSide = args[0];
+	squareSide = args[0];
 
     square = Square:create(squareSide);
 

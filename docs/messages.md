@@ -1,6 +1,6 @@
 # Messages and Procedures
 
-Here's some Lo code that probably looks suspiciously familiar to you:
+Here's some Lo code that probably looks familiar to you:
 
 ```
 y = foo(x);
@@ -170,8 +170,29 @@ The arguments to foo are evaluated *concurrently*.
 
 # Events
 
-Another messaging pattern is the one-to-many pattern. This has built-in support in the form of *events*.
+Another common messaging pattern is the one-to-many pattern, which has built-in support in the form of *events*. An event is a pair of linked addresses: an `inlet` to which messages can be sent and an `outlet` to which subscribe and unsubscribe messages can be sent. Like any message, an event has a format.
 
 ```
 // define an event
+newUser = -< (name);
+
+// subscribe to messages
+
+unsub = on newUser.outlet -> (name) {
+
+	// handle the message
+	print("hello, `name`");
+};
+
+// send a message
+"world" >> newUser.inlet;
+
+// unsubscribe
+unsub();
 ```
+
+# Futures
+
+# Streams
+
+# Pipes

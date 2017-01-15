@@ -1,16 +1,16 @@
 /**
  */
 
-main is -> (args, io, node) {
+main is <-> (args, io, node) {
 
-    exa     is "http://1e18.org";
+    lo      is "http://lolang.org";
     apple   is "http://www.apple.com";
     google  is "http://www.google.com";
 
 
     // todo connect authority with expertise
 
-    sendRequest is -> {
+    sendRequest is <-> {
 
         @node.http.request(url) -> (res, body) {
 

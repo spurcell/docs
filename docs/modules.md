@@ -52,3 +52,5 @@ reply {
 ```
 
 Though possible in the language, it obviously doesn't make sense to create a service without retaining its address - this would be doing the work of setting up a new inbox and then throwing away its address.
+
+The object returned in the example above isn't exactly an object in the OOP sense, but it acts like one.  Instead of a reference to a record, it's a record of references (other data can be included of course, for instance an object ID). This type of object is called a *facet*. Note that there is simply no way to refer to the referencing environment of the services, where the object's state is maintained. You can only call services defined in the same environment.
