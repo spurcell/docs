@@ -6,14 +6,12 @@
  */
 
 dict is {
-    "hi", "hit", "here", "the",
-   "resign",
-    "there", "post", "signpost"
+    "hi","high","land","highland","highlander","the","there","can","be","only","one","on","here","and","an"
 };
 
 main is <-> (args, io, system) {
 
-    findWords("hitheresignpost", io.out.write) -> (result) {
+    findWords("therecanbeonlyonehighlander", io.out.write) -> (result) {
         io.out.write("success! found `result`\n");
     }
     on fail -> {
