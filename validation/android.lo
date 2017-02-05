@@ -87,7 +87,6 @@ explore is <-> (path) {
 
             // see if path is long enough
             if newLength >= MIN_POINTS {
-//                io.stdout.write("`path`\n");
                 found++;
             }
 

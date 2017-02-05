@@ -16,7 +16,7 @@ main is <-> (args, io, system) {
     }
     on fail -> {
         io.out.write("I was not set up for success\n");
-       fail;
+        fail;
     }
 };
 

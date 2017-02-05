@@ -4,12 +4,14 @@
 
 Square  <Square>
 
+use "Square.lo" as Square;
+
 
 main is <-> (args, io) {
 
-	squareSide = args[0];
+    squareSide = args[0];
 
-    square = Square:create(squareSide);
+    square = Square.create(squareSide);
 
     io.out.write("side length is `square.getSide()`\n");
 
