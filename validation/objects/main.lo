@@ -1,17 +1,16 @@
 /*
  * usage: main.lo <side length>
  */
-
-Square  <Square>
-
-use "Square.lo" as Square;
-
+/*
+alias JS:Math to Math;
+alias NPM:express to express;
+alias tests/one to One;*/
 
 main is <-> (args, io) {
 
     squareSide = args[0];
 
-    square = Square.create(squareSide);
+    square = Square::create(squareSide);
 
     io.out.write("side length is `square.getSide()`\n");
 

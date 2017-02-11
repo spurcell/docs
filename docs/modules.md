@@ -28,7 +28,7 @@ Here's a main module that references a local module (specified using just a file
 ```
 attach "Greeter.lo" as Greeter;
 
-name is "Bigfoot";
+name is "Bigfoot Bjornsen";
 
 main is <-> (args, io) {
     Greeter:sayHi(io.out, name);
