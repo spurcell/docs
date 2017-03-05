@@ -3,7 +3,7 @@
  */
 create is <-> (side) {
 
-    rect = Rectangle::create(side, side, "square");
+    rect = ::Rectangle.create(side, side, "square");
 
     // look what we do here: we whitelist the base class's methods
     // the base class is otherwise completely encapsulated within the child class

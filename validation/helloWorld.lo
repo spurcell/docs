@@ -1,4 +1,0 @@
-main is <-> (args, io) {
-
-    io.out.write("hello, world!\n");
-};

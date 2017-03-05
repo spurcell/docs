@@ -45,9 +45,9 @@ Lo also provides mutating operators that aren't allowed in expressions.
 - Assignment: `=` `+=` `-=` `*=` `/=` `%=`
 
 
-## Collections
+## Data Structures
 
-Collections in Lo are not objects with message interfaces but more like statically-allocated C arrays: local values that can be directly accessed and modified by the current procedure. However, unlike C arrays, collections can't be accessed or passed by references – a collection is the exclusive property of the local process. So if you pass a collection to a procedure, it may need to be copied. Constants can be defined as collections which are then internally immutable.
+Data structures in Lo are not objects with message interfaces but more like statically-allocated C arrays: local values that can be directly accessed and modified by the current procedure. However, unlike C arrays, collections can't be accessed or passed by reference – a collection is the exclusive property of the local process. So if you pass a collection to a procedure, it may need to be copied. Constants can be defined as collections which are then internally immutable.
 
 ### Arrays
 
@@ -151,14 +151,14 @@ numItems = #{"apples", "oranges"};    // numItems is 2
 strlen = #"monkeys";                  // strlen is 7
 ```
 
-You can test membership in sets and maps using the `in` operator:
+You can test membership in sets and maps using the `contains` operator:
 
 ```
-if "Bender" in crew {
+if crew contains "Bender" {
 	// keep an eye on your belongings
 }
 
-if player in greats {
+if greats contains player {
 	instrument = greats[player];
 }
 ```
