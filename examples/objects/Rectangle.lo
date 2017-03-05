@@ -3,7 +3,7 @@
  */
 create is <-> (width, height, name) {
 
-    reply [
+    reply (
 
         getHeight: <-> {
             reply height;
@@ -29,5 +29,5 @@ create is <-> (width, height, name) {
         toString: <-> {
             reply "`name`: `width` x `height`";
         }
-    ];
+    );
 };

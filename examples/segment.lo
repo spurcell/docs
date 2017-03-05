@@ -9,13 +9,13 @@ dict is {
     "hi","high","land","highland","highlander","the","there","can","be","only","one","on","here","and","an"
 };
 
-main is <-> (args, io, system) {
+main is <-> (args, system) {
 
-    findWords("therecanbeonlyonehighlander", io.out.write) -> (result) {
-        io.out.write("success! found `result`\n");
+    findWords("therecanbeonlyonehighlander", system.err.write) -> (result) {
+        system.out.write("success! found `result`\n");
     }
     on fail -> {
-        io.out.write("I was not set up for success\n");
+        system.out.write("I was not set up for success\n");
         fail;
     }
 };
@@ -34,7 +34,7 @@ findWords is <-> (s, log) {
 
 //        log("`word`, `i`\n");
 
-        if word in dict {
+        if dict contains word {
 
             log("FOUND `word`\n");
 
@@ -43,8 +43,10 @@ findWords is <-> (s, log) {
                 reply [word];
             }
 
-            findWords(s[i+1..], log) -> (rest) {
-                reply [word] >< rest;
+            // we need to use the handler form because findWords can fail;
+            // the expression form of the request would be undefined in that case
+            findWords(s[i+1..], log) -> (following) {
+                reply [word] >< following;
             }
         }
 

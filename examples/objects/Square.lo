@@ -1,16 +1,14 @@
-Rect    <Rectangle>
-
 /**
  * Constructor
  */
 create is <-> (side) {
 
-    rect = Rect:create(side, side, "square");
+    rect = ::Rectangle.create(side, side, "square");
 
     // look what we do here: we whitelist the base class's methods
     // the base class is otherwise completely encapsulated within the child class
 
-    reply [
+    reply (
 
         getArea: rect.getArea,
 
@@ -25,5 +23,5 @@ create is <-> (side) {
         getSide: <-> {
             reply side;
         }
-    ];
+    );
 };

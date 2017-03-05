@@ -1,0 +1,18 @@
+/*
+ * usage: main.lo <side length>
+ */
+
+main is <-> (args, system) {
+
+    squareSide = args[0];
+
+    square = ::Square.create(squareSide);
+
+    system.out.write("side length is `square.getSide()`\n");
+
+    area = square.getArea();
+
+    system.out.write(square.toString());
+    system.out.write("\n`area`\n");
+};
+
