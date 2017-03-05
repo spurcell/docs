@@ -11,7 +11,7 @@ factorial is <-> (num) {
     reply num * factorial(num - 1);
 };
 
-main is <-> (args, io) {
+main is <-> (args, system) {
 
-    io.out.write("`factorial(args[0])`\n");
+    system.out.writeln(`factorial(args[0])`);
 };
