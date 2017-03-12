@@ -12,6 +12,10 @@ factorial is <-> (num) {
 };
 
 main is <-> (args, system) {
+    
+    if #args < 1 {
+        fail "please provide an integer argument";
+    }
 
     system.out.writeln(`factorial(args[0])`);
 };
