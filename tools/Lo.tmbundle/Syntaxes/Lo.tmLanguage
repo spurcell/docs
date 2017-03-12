@@ -68,31 +68,19 @@
 			</array>
 		</dict>
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>inc</key>
-				<dict>
-					<key>name</key>
-					<string>invalid.illegal.digit-separator-should-not-be-last.c++</string>
-				</dict>
-			</dict>
 			<key>match</key>
-			<string>(?x)\b
-			(  (?i:
-			      0x ( \h+    ( ' \h+    )* )?  # Hexadecimal
-			   |  0b ( [0-1]+ ( ' [0-1]+ )* )?  # Binary
-			   |  0  ( [0-7]+ ( ' [0-7]+ )* )   # Octal
-			   |     ( [0-9]+ ( ' [0-9]+ )* )   # Decimal
-			   )
-			   ( ([uUfF] | u?ll? | U?LL?)\b | (?&lt;inc&gt;') | \b )
-			|  ( [0-9]+ ( ' [0-9]+ )* )?
-			   (?i:
-			      \. ( [0-9]+ ( ' [0-9]+ )* ) E(\+|-)? ( [0-9]+ ( ' [0-9]+ )* )
-			   |  \. ( [0-9]+ ( ' [0-9]+ )* )
-			   |  E(\+|-)? ( [0-9]+ ( ' [0-9]+ )* )
-			   )
-			   ( (?&lt;inc&gt;') | \b )
-			)</string>
+			<string>(?x)
+            			(?&lt;!\w|\$)							    
+                        [+-]?                               # Optional sign
+            			(?&gt;
+            			(
+            				(0|[1-9][0-9]*)(\.[0-9]*)?		# 0 or 1 or 1. or 1.0
+            					  | \.[0-9]+				# .1
+            				)
+            				([eE][+-]?[0-9]+)?				# Exponent
+            				)
+            			(?!\w)								
+            			</string>
 			<key>name</key>
 			<string>constant.numeric.lo</string>
 		</dict>
