@@ -1,55 +1,24 @@
-# Introduction
 
 > Programmers are always surrounded by complexity; we cannot avoid it. Our applications are complex because we are ambitious to use our computers in ever more sophisticated ways. Programming is complex because of the large number of conflicting objectives for each of our programming projects. If our basic tool, the language in which we design and code our programs, is also complicated, the language itself becomes part of the problem rather than part of its solution.
 > 
 > *Tony Hoare, 1980 ACM Turing Award Lecture*
 
-Lo is a message-based programming language designed for building robust concurrent applications in the real world – where failures happen and security matters.
+## The Lo Model of Computation
 
-## Motivation
+A message is sent to an address.
 
-Why was Lo created? There are already so many "general purpose" programming languages – surely we have enough. The purpose of Lo is to be a tool that feels better in the hand; that doesn't hurt to hold for a long time; that doesn't get in the way of precision work, but can also be used to build large-scale structures. Lo is a tool, not a manifesto. Simplicity is pursued because that makes a better tool. The purpose is developer happiness.
+After traveling nanometers or light-years, the message is delivered to a queue.
 
-## Model of Computation
+A worker tending the queue removes the message and inspects its address, identifying a procedure bound to the address. The procedure is specified as a sequence of the few primitive operations that the worker is capable of performing: data storage and retrieval, arithmetic, iteration, sending messages, and creating new services (procedures bound to addresses).
 
-## Requirements
+An individual performance of a procedure by a worker is called a *task*. The worker creates a record (called an *environment*) to keep track of the state of its task, including the contents of the message that initiated it. Only one worker may work on a task at a time, and a worker can only do one thing at a time, so only one operation at a time can take place within an environment.
 
-##### Simplicity
+A worker can trade off working on one task for another, or switch between many tasks in progress, but the worker maintains no state independent of its tasks, nor can it access any other state.
 
-See Hoare quote above.
+A procedure can specify a nested procedure, which tells the worker to procure an unused address and bind it to the specified procedure in the environment of the current task (the outer environment). The nested procedure can reference the outer environment, and will therefore be performed by the same worker as the outer task, which means only one operation at a time can happen in either the inner or outer tasks. The message queue for the inner service is part of the outer task's environment, so no messages for the inner service will be acted upon if the worker is engaged on the outer task.
 
-##### Security
+A procedure can define an unlimited number of nested procedures, and nested procedures can define nested procedures of their own. But within the context of any given task, only one thing can happen at a time.
 
-The language should be secure by default, and permit development of secure software. That is, it should not have features that violate secure software design. Security *must* be embraced at the language level.
+Addresses are simply values that can be stored, copied, and sent in messages like any other value. However, addresses can only be created by defining a service, and can never be modified.
 
-##### Testability
-
-The design of a language is all about defining the border between what the programmer can draw upon vs what he must articulate. The language should not be an obstacle to developing the high-veracity tests required of critical software.
-
-##### Distributibility
-
-Not only should a piece of software not have to be rewritten to be distributed, or recompiled, it shouldn't even have to be relaunched; a program should be able to span compute elements *dynamically*.
-
-## Design Principles
-
-##### A simple, intuitive, and precisely defined conceptual model
-
-Syntax is the mechanism of projection of concepts into text space; the conceptual model *is* the language. The model keeps inconsistencies out of the language. Our facility in programming is a function of how well we understand our virtual machine.
-
-##### "Preservation of Information"
-
-> The language should allow the representation of information that the user might know and the compiler might need.
-> 
-> *Bruce J. MacLennan, Principles of Programming Languages*
-
-Lo's async control structures are an example of this in practice.
-
-##### Leverage
-
-This is typically called "power" but that term reliably triggers a vapid discussion of the theoretical equivalence of all Turing-complete languages, so I'm going to attempt to sidestep that by referring to the ability of the language to offer commonly-reached-for aspects such as collections as primitives to streamline the developer's. Much of the difficulty of language design lies in defining this border. The higher the leverage, the lower the tedium.
-
-##### Readability
-
-Reading should be an effortless pleasure. Punctuation should be deployed where it enhances readability. E.g. braces and semicolons are used as explicit delimiters of blocks and statements because, perhaps counterintuitively, they let us to read more quickly than not having them.
-
-*Later, graceful degradation could come into play.
+In general, a worker will complete an outer task before picking up a new task for an inner service, but there is one exception.
