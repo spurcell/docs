@@ -11,43 +11,42 @@ dict is {
 
 main is <-> (args, system) {
 
-    findWords("therecanbeonlyonehighlander", system.err.write) -> (result) {
+    findWords << ("therecanbeonlyonehighlander", system.err.write) -> (result) {
         system.out.write("success! found `result`\n");
     }
     on fail -> {
         system.out.write("I was not set up for success\n");
         fail;
-    }
+    };
 };
 
 findWords is <-> (s, log) {
 
+    // base case
+    if dict has s {
+        reply [s];
+    }
+    
     length = #s;
-
-//    log("`s`, `length`\n");
 
     i = 0;
 
     while i < length {
 
+        // strings are just arrays
         word = s[0..i];
 
-//        log("`word`, `i`\n");
+        if dict has word {
 
-        if dict contains word {
+            // log("FOUND `word`\n");
 
-            log("FOUND `word`\n");
-
-            // base case
-            if i == length - 1 {
-                reply [word];
-            }
-
-            // we need to use the handler form because findWords can fail;
+            // we need to use the message form to switch on the result because findWords can fail;
             // the expression form of the request would be undefined in that case
-            findWords(s[i+1..], log) -> (following) {
+            // on failure we just keep chugging; on success we return
+            
+            findWords << (s[i+1..], log) -> (following) {
                 reply [word] >< following;
-            }
+            };
         }
 
         i++;

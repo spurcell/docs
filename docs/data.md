@@ -1,6 +1,8 @@
-# Language Basics
+# Data Structures
 
-Lo shares its basic syntax with C-family languages so it should feel familiar to most users; simple statements are separated by semicolons and compound statements are enclosed in braces.
+Lo shares its basic syntax with C-family languages so it should feel familiar to most users: simple statements are separated by semicolons and compound statements are enclosed in braces.
+
+However, every construct in Lo is either a statement or an expression; no construct is both.
 
 ## Data Types
 
@@ -13,7 +15,7 @@ myInt = 42;
 myFloat = 2.71828;
 testMode = true;
 ```
-*Note: assignments in Lo are statements, not expressions.*
+*Note: assignment statements in Lo are not expressions.*
 
 Constants are defined using `is`:
 
@@ -47,7 +49,7 @@ Lo also provides mutating operators that aren't allowed in expressions.
 
 ## Data Structures
 
-Data structures in Lo are not objects with message interfaces but more like statically-allocated C arrays: local values that can be directly accessed and modified by the current procedure. However, unlike C arrays, collections can't be accessed or passed by reference – a collection is the exclusive property of the local process. So if you pass a collection to a procedure, it may need to be copied. Constants can be defined as collections which are then internally immutable.
+Data structures in Lo are not objects with message interfaces but more like statically-allocated C arrays: local values that can be directly accessed and modified by the current procedure. However, unlike C arrays, there is no such thing as a reference to a data structure that can be passed in a message – a collection is exclusive to a single environment. So if you pass a data structure to a procedure, it may need to be copied. Constants can be defined as data structures which are then internally immutable.
 
 ### Arrays
 
@@ -91,7 +93,7 @@ and converted to strings with bare backticks.
 write(`height`);
 ```
 
-The concatenation operator `><` yields a new array containing the elements of the left array followed by the elements of the right array.
+The concatenation operator `><` evaluates to a new array containing the elements of the left operand followed by the elements of the right operand. It doesn't modify either of its operand arrays.
 
 ```
 western is ["K2", "Nanga Parbat"];
@@ -180,9 +182,11 @@ humanCrew = crew * humans;
 nonHumanCrew = crew - humans;
 ```
 
+The union of two maps will contain the left operand's values wherever both maps define the same keys.
+
 ## Records
 
-A **record** is an aggregate of one or more labeled fields of any type, including collections or other records. Record fields are referenced in expressions using the dot operator `.` and record literals are defined within parens.
+A **record** is an aggregate of one or more labeled fields of any type, including collections or other records. Record fields are referenced in expressions using the dot operator `.` and record literals are defined within parentheses.
 
 ```
 student = (
