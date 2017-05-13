@@ -2,7 +2,7 @@
 
 #### Conditionals
 
-Lo `if` statements are like C apart from not requiring parens in the predicate.
+Lo `if` statements are like C apart from not requiring parentheses in the predicate.
 
 ```
 
