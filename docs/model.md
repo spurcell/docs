@@ -1,5 +1,9 @@
 # The Lo Model of Distributed Computation
 
+*Lo is a language for specifying the behavior of a network of independent, isolated ("shared-nothing"), services communicating asynchronously. Here's what that means.*
+
+--
+
 A message is sent to an address.
 
 After traveling some distance in space and time, the message is delivered to a queue.

@@ -153,36 +153,44 @@ numItems = #{"apples", "oranges"};    // numItems is 2
 strlen = #"monkeys";                  // strlen is 7
 ```
 
-You can test membership in sets and maps using the `contains` operator:
+You can test membership in sets and maps using the `has` operator:
 
 ```
-if crew contains "Bender" {
+if crew has "Bender" {
 	// keep an eye on your belongings
 }
 
-if greats contains player {
+if greats has player {
 	instrument = greats[player];
 }
 ```
 
-You can find the union, intersection, or difference of two sets or maps using the `+`, `*`, and `-` operators, respectively.
+You can find the union, intersection, or difference of two sets or maps using the `+`, `*`, and `-` operators, respectively. These operators provide the ability to insert and remove elements from sets.
 
 ```
 humans  = {"Amy", "Professor", "Hermes", "Fry", "Leela", "Scruffy"};
-aliens  = {"Zoidberg"};
+aliens  = {"Zoidberg", "Kif", "Nibbler"};
 robots  = {"Bender", "Bessie"};
 
 // union
-nonRobots = humans + aliens;
+crew = {"Leela", "Fry"} + robots;
 
 // intersection
 humanCrew = crew * humans;
 
 // difference
 nonHumanCrew = crew - humans;
+
+// insert a set element
+humans += 'Zapp';
+
+// remove a set element
+robots -= 'Bessie';
 ```
 
-The union of two maps will contain the left operand's values wherever both maps define the same keys.
+Union of maps is non-commutative: it will contain the left operand's values wherever both maps define the same keys. 
+Intersecting a set and a map is also non-commutative: the result is a set if the set is the left operand; otherwise a map.
+
 
 ## Records
 

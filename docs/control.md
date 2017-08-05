@@ -40,13 +40,13 @@ while x < 10 {
 
 ```
 
-Definite iteration is supported with the `scan` statement.
+Iteration over the items in a collection is supported with the `scan` statement.
 
 ```
 
 scan items -> (item) {
 
-	log(item);
+	log << item;
 }
 
 ```
