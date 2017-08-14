@@ -1,4 +1,4 @@
-factorial is <-> (num) {
+factorial is (num) {
 
     if num < 0 {
         fail "I pity the fool!";
@@ -11,7 +11,7 @@ factorial is <-> (num) {
     reply num * factorial(num - 1);
 };
 
-main is <-> (args, system) {
+main is (args, system) {
     
     if #args < 1 {
         fail "please provide an integer argument";

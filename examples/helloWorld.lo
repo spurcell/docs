@@ -1,5 +1,4 @@
-main is <-> (args, system) {
+main is (args, system) {
 
-    // out: (write, writeln, isTTY, close)
-    system.out.write("hello, world!\n");
+    system.out.write: "hello, world!\n";
 };

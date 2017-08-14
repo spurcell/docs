@@ -99,15 +99,21 @@ The concatenation operator `><` evaluates to a new array containing the elements
 western is ["K2", "Nanga Parbat"];
 eastern is ["Everest", "Lhotse", "Kangchenjunga"];
 
-mountains = western >< eastern;        // evaluates to the concat of the two immutable arrays
+mountains = western >< eastern;        // evaluates to the concatenation of the two immutable arrays
 
 // Q: why does the statement below add one string element instead of
 // six character elements to the back of the array?
 
-mountains ><= "Denali";                // insert a value at the back
-"Denali" =>< mountains;                // insert a value at the front
+mountains <+ "Denali";                // insert a value at the back
+"Denali" +> mountains;                // insert a value at the front
 
 // A: because it's an array of strings, not characters
+```
+
+To remove the element at index i:
+
+```
+mountains[i] ->;    // pulls it off and throws it away
 ```
 
 ### Sets and Maps
@@ -149,7 +155,7 @@ You can get the cardinality (number of elements) of a collection (array, set, or
 ```
 numItems = #{"apples", "oranges"};    // numItems is 2
 
-// since a string is a collection, we can get its cardinality
+// since a string is an array, we can get its cardinality
 strlen = #"monkeys";                  // strlen is 7
 ```
 

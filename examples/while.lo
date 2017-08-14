@@ -1,4 +1,4 @@
-main is <-> (args, system) {
+main is (args, system) {
 
     path = [];
     num = 0;
