@@ -1,6 +1,6 @@
 ## Control Structures
 
-#### Conditionals
+#### Conditional Statements
 
 Lo `if` statements are like C apart from not requiring parentheses in the predicate.
 
@@ -14,6 +14,9 @@ else if x > 1 {
 else {
 	// x is 1
 }
+
+// single statement form
+if answer == 42 log <- answer;
 
 ```
 
@@ -103,8 +106,32 @@ If both handlers are omitted, a semicolon is required.
 foo <- ("hi");
 ```
 
-In any case, a response to the invocation is required before execution continues onto the next statement, regardless of whether anything is done with it. However, this behavior can be changed with asynchronous invocation.
+In any of these cases, a response to an invocation must be received before execution continues onto the next statement, regardless of whether anything is done with it. However, this constraint can be removed by employing asynchronous invocation.
 
 #### Asynchronous Invocation
 
-Every invocation can be either synchronous (the default) or asynchronous.
+Any invocation in Lo can be either synchronous (the default) or asynchronous, indicated by preceding the invocation statement with the `async` keyword or its shorthand form `@`. 
+
+```
+async getSession <- userID -> (session) {
+
+    // handler runs only after all following statements have completed
+}
+~> (err) {
+
+    log <- err;
+}
+
+// following statements
+```
+
+With asynchronous invocation, execution *does not wait* for a response to the invocation; the next statement is executed immediately. When a response is received for the async invocation it's enqueued and will be processed only after the procedure has completed. If the procedure completes before all responses have been received, the procedure will hang until all responses are received. Thus every procedure execution in Lo has two phases: running, and waiting for responses.
+
+This can be confusing because execution becomes non-linear; following statements will always execute before any async invocation handlers have a chance to run.
+
+#### Function Application Syntax
+
+Function application is a semantic primitive in most languages, but in Lo, expressions of the form `foo(x, y)` are syntactic sugar for a special case of procedure invocation.
+
+
+

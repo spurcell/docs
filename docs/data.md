@@ -1,24 +1,32 @@
 ## Primitive Data Types
 
-Lo supports signed integers and floating point numbers and provides the literal values `true` and `false` for booleans.
+Lo's primitive data types include
 
-Variables are declared implicitly by assignment:
+- integers
+- floating-point numbers (IEEE 754)
+- boolean values (`true` and `false` are literals)
+- characters
+- procedure addresses
+
+There are no reference types in Lo apart from procedure addresses; shared data is not possible.
+
+**Variables** are declared implicitly by assignment:
 
 ```
 myInt = 42;
-myFloat = 2.71828;
+myFloat = 42.0;
 testMode = true;
 ```
 *Note: assignment statements in Lo are not expressions.*
 
-Constants are defined using `is`:
+**Constants** are defined using `is`:
 
 ```
 theAnswer is 42;
 planetName is "Tralfamadore";
 ```
 
-Once a constant has been defined in a scope it cannot be redefined.
+Once a constant has been defined it cannot be redefined in the same scope.
 
 A character value holds a single Unicode code point. Character literals can be specified with single quotes. Characters may consume more than one byte.
 
@@ -33,7 +41,7 @@ Lo provides the usual non-mutating operators for constructing expressions.
 
 - Algebraic: `+` `-` `*` `/` `%`
 - Logical: `and` `or`
-- Comparison: `==` `>` `<` `>=` `<=`
+- Testing: `==` `>` `<` `>=` `<=`
 
 Lo also provides mutating operators that aren't allowed in expressions.
 
@@ -47,6 +55,25 @@ Function application expressions of the form `foo(x)` are syntactic sugar for a 
 Data structures in Lo are passive chunks of data that can be operated on, like arrays in C, not full-blown "objects" in the OOP sense. They also can't be shared; like primitives, data structures are strictly local objects that can only be referenced by an enclosing procedure. So if you "pass" a data structure as an argument to a procedure, its contents be copied into the invocation message, and the local copy can't be seen or modified by the invoked procedure.
 
 Constants can be defined as data structures which are then immutable.
+
+### Compounds
+
+A **compound** is a data structure comprising two or more **components** of any data type – including collections or other compounds – each of which has a distinct name. Components are specified in expressions using the dot operator `.`
+
+Compound literals are defined within parentheses, with a colon separating component names from their values.
+
+```
+student = (
+	name: (first: "Joe", last: "B")
+	course: 16
+	year: 2001
+);
+
+// specify components by name using the dot operator
+fullName = "`student.name.first` `student.name.last`";
+```
+
+(Since the convention appears to be that every language invents its own term for this concept, Lo adheres to this convention. See: record, struct, tuple, object.)
 
 ### Arrays
 
@@ -181,27 +208,3 @@ robots -= 'Bessie';
 
 Union of maps is non-commutative: it will contain the left operand's values wherever both maps define the same keys. 
 Intersecting a set and a map is also non-commutative: the result is a set if the set is the left operand; otherwise a map.
-
-
-## Compounds
-
-A **compound** is a data structure comprising two or more **components** of any data type – including collections or other compounds – each of which has a distinct name. Components are specified in expressions using the dot operator `.`
-
-Compound literals are defined within parentheses, with a colon separating component names from their values.
-
-```
-student = (
-	name: (first: "Joe", last: "B")
-	course: 16
-	year: 2001
-);
-
-// specify components by name using the dot operator
-fullName = "`student.name.first` `student.name.last`";
-```
-
-(Since the convention appears to be that every language invents its own term for this concept, Lo adheres to this convention. See: record, struct, tuple, object.)
-
-## Addresses
-
-There is no reference type in Lo – there's no such thing as a reference to a data object.
