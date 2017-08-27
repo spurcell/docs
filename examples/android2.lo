@@ -1,0 +1,80 @@
+/**
+ * This program is the answer to an interview question I like to ask:
+ * how many valid android lockscreen patterns are there?
+ *
+ * Created by: spurcell
+ * 12/6/2015
+ */
+
+SIDE_LENGTH is 3;
+MIN_POINTS  is 4;
+MAX_POINTS  is 9;    // could we do SIDE_LENGTH * SIDE_LENGTH instead?
+
+// recursively scan the grid
+
+explore is (path, log) {
+
+    lastPoint = path[-1];
+    
+    // 0,0 is top left
+    testPoint = (x: 0, y: 0);
+    
+    found = 0;
+        
+    // todo replace the whiles with scans of the space
+    // idea: scanning a 2D array provides two coords to the handler
+
+    while testPoint.x < SIDE_LENGTH {
+        
+        while testPoint.y < SIDE_LENGTH {
+            
+            log: "(`testPoint.x`, `testPoint.y`)";
+            
+            valid = true;
+            
+            if path contains testPoint {
+                valid = false;
+            }
+            
+            // see if it's captured by an unclaimed point on the line 
+            // between the last point and our test testPoint
+            
+            // need to do absolute value and maybe specify integer math here
+            
+            centerPoint = (
+                x: (testPoint.x - lastPoint.x) / 2
+                y: (testPoint.y - lastPoint.y) / 2
+            );
+
+            if valid {
+
+                newLength = #path + 1;
+
+                // see if path is long enough to be a valid solution
+                if newLength >= MIN_POINTS {
+                    found++;
+                }
+
+                // extend the path if possible
+                if newLength < MAX_POINTS {
+                    found += explore(path >< [testPoint], log);
+                }
+            }
+
+            testPoint.x++;
+        }
+        
+        testPoint.y++;
+    }
+
+    reply found;
+};
+
+main is (args, system) {
+
+    // for this problem we want a sequence, since a path has order, 
+    // but we also want const time lookup of what we've used
+    // we could use a 3x3 bitmap for that
+
+    system.out.write: "`explore([], system.out.writeln)`\n";
+};

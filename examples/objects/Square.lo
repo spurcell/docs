@@ -1,9 +1,11 @@
+Rect is module Rectangle;
+
 /**
  * Constructor
  */
-create is <-> (side) {
+create is (side) {
 
-    rect = ::Rectangle.create(side, side, "square");
+    rect = Rect.create(side, side, "square");
 
     // look what we do here: we whitelist the base class's methods
     // the base class is otherwise completely encapsulated within the child class
@@ -14,13 +16,13 @@ create is <-> (side) {
 
         toString: rect.toString,
 
-        setSide: <-> (side) {
+        setSide: (side) {
 
             rect.setHeight(side);
             rect.setWidth(side);
         },
 
-        getSide: <-> {
+        getSide: {
             reply side;
         }
     );

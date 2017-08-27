@@ -1,10 +1,4 @@
-# Data Structures
-
-Lo shares its basic syntax with C-family languages so it should feel familiar to most users: simple statements are separated by semicolons and compound statements are enclosed in braces.
-
-However, every construct in Lo is either a statement or an expression; no construct is both.
-
-## Data Types
+## Primitive Data Types
 
 Lo supports signed integers and floating point numbers and provides the literal values `true` and `false` for booleans.
 
@@ -99,15 +93,21 @@ The concatenation operator `><` evaluates to a new array containing the elements
 western is ["K2", "Nanga Parbat"];
 eastern is ["Everest", "Lhotse", "Kangchenjunga"];
 
-mountains = western >< eastern;        // evaluates to the concat of the two immutable arrays
+mountains = western >< eastern;        // evaluates to the concatenation of the two immutable arrays
 
 // Q: why does the statement below add one string element instead of
 // six character elements to the back of the array?
 
-mountains ><= "Denali";                // insert a value at the back
-"Denali" =>< mountains;                // insert a value at the front
+mountains <+ "Denali";                // insert a value at the back
+"Denali" +> mountains;                // insert a value at the front
 
 // A: because it's an array of strings, not characters
+```
+
+To remove the element at index i:
+
+```
+mountains[i] ->;    // pulls it off and throws it away
 ```
 
 ### Sets and Maps
@@ -149,44 +149,54 @@ You can get the cardinality (number of elements) of a collection (array, set, or
 ```
 numItems = #{"apples", "oranges"};    // numItems is 2
 
-// since a string is a collection, we can get its cardinality
+// since a string is an array, we can get its cardinality
 strlen = #"monkeys";                  // strlen is 7
 ```
 
-You can test membership in sets and maps using the `contains` operator:
+You can test membership in sets and maps using the `has` operator:
 
 ```
-if crew contains "Bender" {
+if crew has "Bender" {
 	// keep an eye on your belongings
 }
 
-if greats contains player {
+if greats has player {
 	instrument = greats[player];
 }
 ```
 
-You can find the union, intersection, or difference of two sets or maps using the `+`, `*`, and `-` operators, respectively.
+You can find the union, intersection, or difference of two sets or maps using the `+`, `*`, and `-` operators, respectively. These operators provide the ability to insert and remove elements from sets.
 
 ```
 humans  = {"Amy", "Professor", "Hermes", "Fry", "Leela", "Scruffy"};
-aliens  = {"Zoidberg"};
+aliens  = {"Zoidberg", "Kif", "Nibbler"};
 robots  = {"Bender", "Bessie"};
 
 // union
-nonRobots = humans + aliens;
+crew = {"Leela", "Fry"} + robots;
 
 // intersection
 humanCrew = crew * humans;
 
 // difference
 nonHumanCrew = crew - humans;
+
+// insert a set element
+humans += 'Zapp';
+
+// remove a set element
+robots -= 'Bessie';
 ```
 
-The union of two maps will contain the left operand's values wherever both maps define the same keys.
+Union of maps is non-commutative: it will contain the left operand's values wherever both maps define the same keys. 
+Intersecting a set and a map is also non-commutative: the result is a set if the set is the left operand; otherwise a map.
 
-## Records
 
-A **record** is an aggregate of one or more labeled fields of any type, including collections or other records. Record fields are referenced in expressions using the dot operator `.` and record literals are defined within parentheses.
+## Compounds
+
+A **compound** is a data structure comprising two or more **components** of any data type – including collections or other compounds – each of which has a distinct name. Components are specified in expressions using the dot operator `.`
+
+Compound literals are defined within parentheses, with a colon separating component names from their values.
 
 ```
 student = (
@@ -195,9 +205,11 @@ student = (
 	year: 2001
 );
 
-// access elements by label
+// specify components by name using the dot operator
 fullName = "`student.name.first` `student.name.last`";
 ```
+
+(Since the convention appears to be that every language invents its own term for this concept, Lo adheres to this convention. See: record, struct, tuple, object.)
 
 ## Addresses
 
