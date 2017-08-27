@@ -1,14 +1,14 @@
 ## Primitive Data Types
 
-Lo's primitive data types include
+Lo's primitive data types are:
 
-- integers
-- floating-point numbers (IEEE 754)
-- boolean values (`true` and `false` are literals)
-- characters
-- procedure addresses
+- Integers
+- Floating-point numbers (IEEE 754)
+- Boolean values (`true` and `false` are literals)
+- Characters
+- Procedure addresses
 
-There are no reference types in Lo apart from procedure addresses; shared data is not possible.
+There are no reference types in Lo apart from procedure addresses; *shared data is not possible*.
 
 **Variables** are declared implicitly by assignment:
 

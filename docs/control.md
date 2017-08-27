@@ -110,7 +110,7 @@ In any of these cases, a response to an invocation must be received before execu
 
 #### Asynchronous Invocation
 
-Any invocation in Lo can be either synchronous (the default) or asynchronous, indicated by preceding the invocation statement with the `async` keyword or its shorthand form `@`. 
+Any invocation in Lo can be made asynchronous simply by preceding the invocation statement with the `async` keyword or its shorthand form, `@`. 
 
 ```
 async getSession <- userID -> (session) {
@@ -125,13 +125,26 @@ async getSession <- userID -> (session) {
 // following statements
 ```
 
-With asynchronous invocation, execution *does not wait* for a response to the invocation; the next statement is executed immediately. When a response is received for the async invocation it's enqueued and will be processed only after the procedure has completed. If the procedure completes before all responses have been received, the procedure will hang until all responses are received. Thus every procedure execution in Lo has two phases: running, and waiting for responses.
+With asynchronous invocation, execution *does not wait* for a response to the invocation; the next statement is executed immediately. Asynchronous logic can be confusing because execution becomes non-linear, but *following statements will always execute before any async invocation handlers are run*.
 
-This can be confusing because execution becomes non-linear; following statements will always execute before any async invocation handlers have a chance to run.
+When a response is received for the async invocation it gets enqueued and will be processed only after the procedure has completed. If the procedure completes before all responses have been received, the procedure will hang until all responses are received. Thus every procedure execution in Lo has two phases: running, and waiting for responses.
 
 #### Function Application Syntax
 
 Function application is a semantic primitive in most languages, but in Lo, expressions of the form `foo(x, y)` are syntactic sugar for a special case of procedure invocation.
 
+A function application denoted as e.g. ƒ(x) is a mathematical concept meaning "the value of computing the function ƒ with the value x". However, a computer program isn't math; it's machinery. Lo's concept of procedure invocation fits into function-application semantics provided *the procedure always replies with a unary success response*.
 
+- If the procedure replies with a non-unary response, the entire response is shoehorned into the value of the function application expression, as a compound data object.
 
+- If the procedure replies with a failure, the value of the function application expression is unknown, and the program has no alternative but to halt the current task.
+
+Some languages, such as FORTRAN and Pascal, have distinct concepts of functions and procedures (subroutines); Lo has one general concept (procedure), but two distinct styles of invocation.
+
+Function application syntax is compatible with async invocation syntax:
+
+```
+foo(@bar(), @baz());
+```
+
+This example invokes bar and baz *concurrently*; once they have *both* responded, foo is called synchronously.
