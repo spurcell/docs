@@ -45,7 +45,6 @@ findWords is (s, log) {
     fail;
 };
 
-
 // todo -- system of passing in files securely
 
 // idea: a service spec is an input format, reply format, and failure format
@@ -54,48 +53,6 @@ findWords is (s, log) {
 main is (args, system) {
     
     log is system.err.write;
-    
-    stop = false;
-    total = 0;
-    
-    while stop == false {
-        
-        system.in.read -> (data) {
-                        
-            @system.out.write: data;
-            total += #data;
-        }
-        ~> {
-            stop = true;
-        }
-    }
-    
-    system.err.writeln: "read `total` bytes";
-    
-    // see if we were given a dictionary file
-    // if (#args > 0) {
-        
-        // create a readstream
-        // getLine = system.fs.openReadStream(args[0]);
-        
-        // load the file into the dictionary
-        // failure (EOF) is ignored
-        
-        // getLine -> (word) {
-//
-//             dict += word;
-//             repeat;
-//         }
-        
-        // frequency analysis of an array
-        // scan vals -> (val) {
-//
-//             // upsert into counts
-//             counts = counts[val] exists ? counts[val] + 1 : 0;
-//         }        
-    // }
-
-    // todo add parens to message form
     
     findWords: "therecanbeonlyonehighlander", log -> (result) {
         system.out.write("success! found `result`\n");

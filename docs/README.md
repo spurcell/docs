@@ -3,3 +3,7 @@
 > Programmers are always surrounded by complexity; we cannot avoid it. Our applications are complex because we are ambitious to use our computers in ever more sophisticated ways. Programming is complex because of the large number of conflicting objectives for each of our programming projects. If our basic tool, the language in which we design and code our programs, is also complicated, the language itself becomes part of the problem rather than part of its solution.
 > 
 > *Tony Hoare, 1980 ACM Turing Award Lecture*
+
+Lo shares its basic syntax with C-family languages so it should feel familiar to most users: simple statements are separated by semicolons and compound statements are enclosed in braces.
+
+However, every construct in Lo is either a statement or an expression; no construct is both.

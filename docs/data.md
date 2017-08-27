@@ -1,10 +1,4 @@
-# Data Structures
-
-Lo shares its basic syntax with C-family languages so it should feel familiar to most users: simple statements are separated by semicolons and compound statements are enclosed in braces.
-
-However, every construct in Lo is either a statement or an expression; no construct is both.
-
-## Data Types
+## Primitive Data Types
 
 Lo supports signed integers and floating point numbers and provides the literal values `true` and `false` for booleans.
 
@@ -198,9 +192,11 @@ Union of maps is non-commutative: it will contain the left operand's values wher
 Intersecting a set and a map is also non-commutative: the result is a set if the set is the left operand; otherwise a map.
 
 
-## Records
+## Compounds
 
-A **record** is an aggregate of one or more labeled fields of any type, including collections or other records. Record fields are referenced in expressions using the dot operator `.` and record literals are defined within parentheses.
+A **compound** is a data structure comprising two or more **components** of any data type – including collections or other compounds – each of which has a distinct name. Components are specified in expressions using the dot operator `.`
+
+Compound literals are defined within parentheses, with a colon separating component names from their values.
 
 ```
 student = (
@@ -209,9 +205,11 @@ student = (
 	year: 2001
 );
 
-// access elements by label
+// specify components by name using the dot operator
 fullName = "`student.name.first` `student.name.last`";
 ```
+
+(Since the convention appears to be that every language invents its own term for this concept, Lo adheres to this convention. See: record, struct, tuple, object.)
 
 ## Addresses
 
