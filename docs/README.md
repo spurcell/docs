@@ -4,6 +4,12 @@
 > 
 > *Tony Hoare, 1980 ACM Turing Award Lecture*
 
+A Lo program consists of a **main module** containing a `main` procedure to which a root request is sent to activate the program, and any modules referenced directly or indirectly by the main module.
+
+A **module** is a series of constant definitions, usually procedure definitions, that can be referenced by other modules.
+
+A **procedure** is a series of statements, with optional parameters.
+
 Lo shares its basic syntax with C-family languages so it should feel familiar to most users: simple statements are separated by semicolons and compound statements are enclosed in braces.
 
 However, every construct in Lo is either a statement or an expression; no construct is both.

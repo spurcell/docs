@@ -5,7 +5,6 @@
 Lo `if` statements are like C apart from not requiring parentheses in the predicate.
 
 ```
-
 if x < 1 {
 	// do something
 }
@@ -21,7 +20,6 @@ else {
 And `switch` statements are like C apart from the fall-through behavior – Lo cases do not fall through.
 
 ```
-
 switch x {
 
     case "A":
@@ -39,10 +37,9 @@ switch x {
 
 #### Iteration 
 
-Indefinite iteration is supported with `while` and again, no parens are required in the predicate.
+Indefinite iteration is supported with `while` and again, no parentheses are required in the predicate.
 
 ```
-
 while x < 10 {
 
     // this block executes 10 times
@@ -50,10 +47,9 @@ while x < 10 {
 
 ```
 
-Iteration over the items in a collection is supported with the `scan` statement.
+Iteration over the items in a collection is supported with the `scan` statement, which executes a parameterized block for every element of a collection. Array elements are processed sequentially; the sequencing of elements in a set or map is arbitrary but consistent.
 
 ```
-
 scan items -> (item) {
 
     // this block executes once per element of items
@@ -66,9 +62,9 @@ scan items -> (item) {
 
 Because Lo procedures always explicitly signal success or failure, *invocation is a branching construct*, like an if/else statement. Every invocation statement can include a success handler, a failure handler, or both; like an if/else statement, only one branch will be executed.
 
-A handler is a parameterized block of statements that can include some context-specific statements; a handler is not a procedure, though it resembles one.
+A handler is a parameterized block of statements that can include some context-specific statements; although it resembles one, a handler is not a procedure.
 
-Below is the full form of an invocation statement. We're calling the procedure referenced by `foo` with arguments `x, y` and on success expecting a binary response that we map onto the parameters `bar, baz`. On failure we're expecting a unary message that we map onto the parameter `err`.
+Below is the "full form" of an invocation statement. We're calling the procedure referenced by `foo` with arguments `x, y` and on success expecting a binary response that we map onto the parameters `bar, baz`. On failure we're expecting a unary message that we map onto the parameter `err`.
 
 ```
 foo <- (x, y) -> (bar, baz) {

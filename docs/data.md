@@ -40,10 +40,13 @@ Lo also provides mutating operators that aren't allowed in expressions.
 - Increment/decrement: `++` `--`
 - Assignment: `=` `+=` `-=` `*=` `/=` `%=`
 
+Function application expressions of the form `foo(x)` are syntactic sugar for a special case of procedure invocation; this is described in detail under [Control Structures](control.md).
 
 ## Data Structures
 
-Data structures in Lo are not objects with message interfaces but more like statically-allocated C arrays: local values that can be directly accessed and modified by the current procedure. However, unlike C arrays, there is no such thing as a reference to a data structure that can be passed in a message – a collection is exclusive to a single environment. So if you pass a data structure to a procedure, it may need to be copied. Constants can be defined as data structures which are then internally immutable.
+Data structures in Lo are passive chunks of data that can be operated on, like arrays in C, not full-blown "objects" in the OOP sense. They also can't be shared; like primitives, data structures are strictly local objects that can only be referenced by an enclosing procedure. So if you "pass" a data structure as an argument to a procedure, its contents be copied into the invocation message, and the local copy can't be seen or modified by the invoked procedure.
+
+Constants can be defined as data structures which are then immutable.
 
 ### Arrays
 
@@ -61,7 +64,7 @@ fibs[-1];		// syntactic sugar for terminal element (8)
 fibs[-2];		// syntactic sugar for 2nd-to-last element
 ```
 
-The range index notation `..` addresses a portion of an array from a starting index *up to and including* an ending index, which can be omitted to indicate "to the end of the array".
+The range notation `..` specifies the portion of an array from a starting index *up to and including* an ending index, which can be omitted to indicate "to the end of the array".
 
 ```
 fibs[1..4];     // [1, 1, 2, 3]
@@ -93,22 +96,10 @@ The concatenation operator `><` evaluates to a new array containing the elements
 western is ["K2", "Nanga Parbat"];
 eastern is ["Everest", "Lhotse", "Kangchenjunga"];
 
-mountains = western >< eastern;        // evaluates to the concatenation of the two immutable arrays
-
-// Q: why does the statement below add one string element instead of
-// six character elements to the back of the array?
-
-mountains <+ "Denali";                // insert a value at the back
-"Denali" +> mountains;                // insert a value at the front
-
-// A: because it's an array of strings, not characters
+// evaluates to the concatenation of the two immutable arrays
+mountains = western >< eastern;        
 ```
 
-To remove the element at index i:
-
-```
-mountains[i] ->;    // pulls it off and throws it away
-```
 
 ### Sets and Maps
 
