@@ -20,16 +20,18 @@ Greeter is module "Greeter.lo;
 
 name is "Bigfoot Bjornsen";
 
-main is <-> (args, system) {
-    Greeter.sayHi(system.out, name);
+main is (args, system) {
+
+    Greeter.sayHi <- (system.out, name);
 };
 ```
 
 Greeter.lo:
 
 ```
-sayHi is <-> (writer, name) {
-	writer("Hello, `name`!");
+sayHi is (write, name) {
+
+	write: "Hello, `name`!";
 };
 ```
 

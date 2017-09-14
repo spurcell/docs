@@ -1,0 +1,130 @@
+/**
+ * Another interview question solution.
+ *
+ * Created by: spurcell
+ * 2/8/15
+ */
+
+String is module Lo::String;
+
+// dict is {
+//     "hi","high","land","highland","highlander","the","there","can","be","only","one","on","here","and","an"
+// };
+
+
+findWords is (s, dict) {
+
+    // base case
+    if dict has s {
+        reply [s];
+    }
+    
+    length = #s;
+
+    i = 0;
+
+    while i < length {
+
+        // strings are just arrays
+        word = s[0..i];
+
+        if dict has word {
+
+            // we need to use the branching statement form because findWords can fail;
+            // on success we return; on failure we just keep chugging
+            
+            findWords: s[i+1..], dict -> (following) {
+                reply [word] >< following;
+            }
+        }
+
+        i++;
+    }
+
+    // we seem to have run out of string
+    fail;
+};
+
+loadWords is (input, log) {
+    
+    continue = true;
+    total = 0;
+    words = {};
+    
+    while continue {
+
+        input.read -> (chunk) {
+            
+            // split the chunk into lines and add them to dict
+            lines = String.split(chunk, "\n");
+            
+            // this appears to cause a problem with the compiler
+            
+            scan lines -> (line) {
+                
+                if #line > 1 or line == "a" or line == "i" {
+                    
+                    words += line;
+                }
+            }
+
+            // @system.out.write: data;
+            total += #chunk;
+        }
+        ~> {
+            continue = false;
+        }
+    }
+};
+
+// todo -- system of passing in files securely
+
+// idea: a service spec is an input format, reply format, and failure format
+// that's it -- no 'exceptions' can bypass the stack
+
+main is (args, system) {
+    
+    log is system.err.write;
+
+    system.err.writeln: "loading dictionary...";
+    
+    loadWords(system.in);
+
+    system.err.writeln: "read `total` bytes";
+    system.err.writeln: "dict has `#words` words"; 
+    
+    // see if we were given a dictionary file
+    // if (#args > 0) {
+        
+        // create a readstream
+        // getLine = system.fs.openReadStream(args[0]);
+        
+        // load the file into the dictionary
+        // failure (EOF) is ignored
+        
+        // getLine -> (word) {
+//
+//             dict += word;
+//             repeat;
+//         }
+        
+        // frequency analysis of an array
+        // scan vals -> (val) {
+//
+//             // upsert into counts
+//             counts = counts[val] exists ? counts[val] + 1 : 0;
+//         }        
+    // }
+
+    // todo add parens to message form
+    
+    findWords: "ifthefirstcharactercannotbeconvertedtoanumber", words -> (result) {
+        system.out.write("success! found `result`\n");
+    }
+    ~> {
+        system.out.write("I was not set up for success\n");
+        fail;
+    }
+};
+
+

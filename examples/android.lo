@@ -114,5 +114,5 @@ main is (args, system) {
     // for this problem we want a sequence, since a path has order, but we also want const time lookup of what we've used
     // we can just use a set for that
 
-    system.out.write: "`explore([])`\n";
+    system.out.write "`explore([])`\n";
 };

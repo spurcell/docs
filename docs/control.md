@@ -16,7 +16,7 @@ else {
 }
 
 // single statement form
-if answer == 42 log <- answer;
+if answer == 42, log answer;
 
 ```
 
@@ -113,7 +113,7 @@ In any of these cases, a response to an invocation must be received before execu
 Any invocation in Lo can be made asynchronous simply by preceding the invocation statement with the `async` keyword or its shorthand form, `@`. 
 
 ```
-async getSession <- userID -> (session) {
+@getSession <- userID -> (session) {
 
     // handler runs only after all following statements have completed
 }
@@ -133,15 +133,21 @@ When a response is received for the async invocation it gets enqueued and will b
 
 Function application is a semantic primitive in most languages, but in Lo, expressions of the form `foo(x, y)` are syntactic sugar for a special case of procedure invocation.
 
-A function application denoted as e.g. ƒ(x) is a mathematical concept meaning "the value of computing the function ƒ with the value x". However, a computer program isn't math; it's machinery. Lo's concept of procedure invocation fits into function-application semantics provided *the procedure always replies with a unary success response*.
+A function application denoted as ƒ(x) is a mathematical concept meaning "the value of computing the function ƒ with the value x". However, a computer program isn't math; it's a machine. Lo's concept of procedure invocation fits into function-application semantics provided *the procedure always replies with a unary success response*.
 
 - If the procedure replies with a non-unary response, the entire response is shoehorned into the value of the function application expression, as a compound data object.
 
 - If the procedure replies with a failure, the value of the function application expression is unknown, and the program has no alternative but to halt the current task.
 
-Some languages, such as FORTRAN and Pascal, have distinct concepts of functions and procedures (subroutines); Lo has one general concept (procedure), but two distinct styles of invocation.
+Some languages, such as FORTRAN, Pascal, and Oz, distinguish functions (that return values) from procedures or subroutines (that don't); Lo instead has one general concept (procedure), but two distinct styles of invocation: the *invocation statement* described above, or the *application expression* shown here:
 
-Function application syntax is compatible with async invocation syntax:
+```
+session = getSession(userId);
+```
+
+So the same procedure can be invoked in two different ways in different contexts, depending on the needs of the caller.
+
+Application expression syntax can be combined with async invocation syntax:
 
 ```
 foo(@bar(), @baz());

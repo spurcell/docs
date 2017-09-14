@@ -5,15 +5,15 @@ create is (width, height, name) {
 
     reply (
 
-        getHeight: {
+        getHeight: () {
             reply height;
         },
 
-        getWidth: {
+        getWidth: () {
             reply width;
         },
 
-        getArea: {
+        getArea: () {
             reply height * width;
         },
 
@@ -26,7 +26,7 @@ create is (width, height, name) {
             width = newWidth;
         },
 
-        toString: {
+        toString: () {
             reply "`name`: `width` x `height`";
         }
     );

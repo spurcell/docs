@@ -18,11 +18,11 @@ create is (side) {
 
         setSide: (side) {
 
-            rect.setHeight(side);
-            rect.setWidth(side);
+            rect.setHeight side;
+            rect.setWidth side;
         },
 
-        getSide: {
+        getSide: () {
             reply side;
         }
     );
