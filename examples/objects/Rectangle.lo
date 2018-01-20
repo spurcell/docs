@@ -1,30 +1,36 @@
 /**
  * Constructor
  */
-create is (width, height, name) {
+create is (int width, int height, string name) {
 
     reply (
 
         getHeight: () {
             reply height;
-        },
+        }
 
         getWidth: () {
             reply width;
-        },
+        }
 
         getArea: () {
             reply height * width;
-        },
+        }
 
         // syntactic sugar idea: setHeight -> height to replace the below
         setHeight: (newHeight) {
             height = newHeight;
-        },
+        }
 
         setWidth: (newWidth) {
             width = newWidth;
-        },
+        }
+
+        setDimensions: (newWidth, newHeight) {
+
+            width = newWidth;
+            height = newHeight;
+        }
 
         toString: () {
             reply "`name`: `width` x `height`";

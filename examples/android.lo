@@ -13,7 +13,7 @@ MIN_POINTS is 4;
 // recursively iterate
 // label points as 0-8
 
-explore is (path) {
+explore is (int* path) {
 
     point = 0;
     found = 0;
@@ -22,9 +22,13 @@ explore is (path) {
 
         valid = true;
 
-        if path contains point {   // point already used
+        // can't use a point more than once
+        if path contains point {
             valid = false;
         }
+        
+        // can't select a point "shadowed" by a point directly between it and the current point
+        // just enumerating the cases here
         
         // top edge
         else if path[-1] == 0 and point == 2 {
@@ -109,10 +113,10 @@ explore is (path) {
     reply found;
 };
 
-main is (args, system) {
+main is (string* args, dyn system) {
 
     // for this problem we want a sequence, since a path has order, but we also want const time lookup of what we've used
     // we can just use a set for that
 
-    system.out.write "`explore([])`\n";
+    system.out.write <- "`explore([])`\n";
 };

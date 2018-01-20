@@ -10,7 +10,7 @@ dict is {
 };
 
 
-findWords is (s, log) {
+findWords is (string s, dyn log) {
 
     // base case
     if dict has s {
@@ -31,10 +31,10 @@ findWords is (s, log) {
 
             //log "FOUND `word`\n";
 
-            // we need to use the native form to branch on the result because findWords can fail;
-            // on failure we just keep chugging; on success we return
+            // we use the statement form to branch on the result because findWords can fail
             
-            findWords <- (s[i+1..], log) -> (following) {
+            // on failure we just keep chugging; on success we return
+            findWords <- s[i+1..], log -> (following) {
                 reply [word] >< following;
             }
         }
@@ -51,15 +51,15 @@ findWords is (s, log) {
 // idea: a service spec is an input format, reply format, and failure format
 // that's it -- no 'exceptions' can bypass the stack
 
-main is (args, system) {
+main is (string* args, dyn system) {
     
     log is system.err.write;
     
-    findWords "therecanbeonlyonehighlander", log -> (result) {
-        system.out.write "success! found `result`\n";
+    findWords <- "therecanbeonlyonehighlander", log -> (string* result) {
+        system.out.write <- "success! found `result`\n";
     }
     ~> () {
-        system.out.write "I was not set up for success\n";
+        system.out.write <- "I was not set up for success\n";
         fail;
     }
 };
