@@ -2,19 +2,20 @@
  * usage: main.lo <side length>
  */
 
-Square is module;
+using Square;
+using Lo::String;
 
-main is (args, system) {
+main is (string* args, dyn system) {
 
-    squareSide = args[0];
+    squareSide = String.toInt(args[0]);
 
     square = Square.create(squareSide);
 
-    system.out.write "side length is `square.getSide()`\n";
+    system.out.write <- "side length is `square.getSide()`\n";
 
     area = square.getArea();
 
-    system.out.write square.toString();
-    system.out.write "\n`area`\n";
+    system.out.write <- square.toString();
+    system.out.write <- "\n`area`\n";
 };
 

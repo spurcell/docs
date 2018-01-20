@@ -1,9 +1,9 @@
-Rect is module Rectangle;
+using Rectangle as Rect;
 
 /**
  * Constructor
  */
-create is (side) {
+create is (int side) {
 
     rect = Rect.create(side, side, "square");
 
@@ -18,8 +18,7 @@ create is (side) {
 
         setSide: (side) {
 
-            rect.setHeight side;
-            rect.setWidth side;
+            rect.setDimensions <- side, side;
         },
 
         getSide: () {

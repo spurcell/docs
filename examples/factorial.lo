@@ -1,4 +1,6 @@
-factorial is (num) {
+using Lo::String;
+
+factorial is (int num) {
 
     if num < 0 {
         fail "I pity the fool!";
@@ -11,11 +13,20 @@ factorial is (num) {
     reply num * factorial(num - 1);
 };
 
-main is (args, system) {
+main is (string* args, dyn system) {
     
     if #args < 1 {
-        fail "please provide an integer argument";
+        fail "please provide one integer argument";
     }
 
-    system.out.writeln `factorial(args[0])`;
+    // num = String.toInt(args[0]) ~> () {}
+    num = 0;
+    String.toInt <- args[0] -> (parsed) {
+        num = parsed;
+    } ~> () {
+        fail "please provide one *integer* argument";
+    }
+
+    // backticks are sugar for String.from()
+    system.out.writeln <- `factorial(num)`;
 };

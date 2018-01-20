@@ -1,4 +1,4 @@
-main is (args, system) {
+main is (string* args, dyn system) {
 
-    system.out.write "hello, world!\n";
+    system.out.write <- "hello, world!\n";
 };
